@@ -1,0 +1,15 @@
+services:
+  terraform:
+    build:
+      args:
+        USER_NAME: '${USER_NAME}'
+        REPO: '${REPO}'
+      dockerfile: '.docker/terraform/Dockerfile'
+      context: '..'
+    environment:
+      AWS_PROFILE: "testkohirens"
+    entrypoint: sh
+    tty: true
+    volumes:
+      - '../:/${USER_NAME}/src/${REPO}/'
+      - '~/.aws/:/${USER_NAME}/.aws/'

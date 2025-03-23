@@ -1,0 +1,9 @@
+# Directories
+#------------
+/.idea/
+
+# Files
+#------
+.docker/terraform/.ash_history
+tfplan
+/terraform-provider-sh

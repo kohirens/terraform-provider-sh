@@ -4,12 +4,18 @@ services:
       args:
         USER_NAME: '${USER_NAME}'
         REPO: '${REPO}'
-      dockerfile: '.docker/terraform/Dockerfile'
-      context: '..'
+      dockerfile: .docker/terraform/Dockerfile
+      context: ..
     environment:
       AWS_PROFILE: "testkohirens"
+      TF_LOG: "DEBUG"
     entrypoint: sh
     tty: true
     volumes:
       - '../:/${USER_NAME}/src/${REPO}/'
       - '~/.aws/:/${USER_NAME}/.aws/'
+      - './terraform/.ash_history:/root/.ash_history'
+      - go_pkg_cache:/root/pkg/mod
+
+volumes:
+  go_pkg_cache: null

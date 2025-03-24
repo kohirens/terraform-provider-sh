@@ -47,7 +47,7 @@ func (p *shProvider) Metadata(_ context.Context, _ provider.MetadataRequest, res
 // Schema defines the provider-level schema for configuration data.
 func (p *shProvider) Schema(_ context.Context, _ provider.SchemaRequest, resp *provider.SchemaResponse) {
 	resp.Schema = schema.Schema{}
-	resp.Schema.Description = "Extract values from the sh environment where Terraform runs; no configuration is needed."
+	resp.Schema.Description = "Extract values from the sh environment where Terraform runs; no input for the configuration is needed."
 }
 
 // Configure prepares a sh API client for data sources and resources.

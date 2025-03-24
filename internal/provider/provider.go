@@ -7,6 +7,7 @@ import (
 	"context"
 
 	"github.com/hashicorp/terraform-plugin-framework/datasource"
+	"github.com/hashicorp/terraform-plugin-framework/function"
 	"github.com/hashicorp/terraform-plugin-framework/provider"
 	"github.com/hashicorp/terraform-plugin-framework/provider/schema"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
@@ -59,6 +60,13 @@ func (p *shProvider) Configure(ctx context.Context, req provider.ConfigureReques
 func (p *shProvider) DataSources(_ context.Context) []func() datasource.DataSource {
 	return []func() datasource.DataSource{
 		NewDataSourceExtractEnvVars,
+	}
+}
+
+// Functions defines the functions implemented in the provider.
+func (p *shProvider) Functions(_ context.Context) []func() function.Function {
+	return []func() function.Function{
+		NewgetenvFunction,
 	}
 }
 

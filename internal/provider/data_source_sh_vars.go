@@ -6,16 +6,12 @@ package provider
 import (
 	"context"
 	"fmt"
-	"github.com/hashicorp/terraform-plugin-framework/schema/validator"
-	"runtime"
-	"strings"
-
 	"github.com/hashicorp/terraform-plugin-framework-validators/listvalidator"
 	"github.com/hashicorp/terraform-plugin-framework/datasource"
 	"github.com/hashicorp/terraform-plugin-framework/datasource/schema"
+	"github.com/hashicorp/terraform-plugin-framework/schema/validator"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
-	"github.com/kohirens/stdlib/cli"
 )
 
 // Ensure the implementation satisfies the expected interfaces.
@@ -102,7 +98,7 @@ func (d *varsDataSource) Read(ctx context.Context, req datasource.ReadRequest, r
 	// Look up each environment variables response body to model
 	for _, name := range names {
 		envName := name.ValueString()
-		value, ok := PrintEnv(envName)
+		value, ok := printEnv(envName)
 		tflog.Debug(ctx, fmt.Sprintf("env name: %v; ok: %v\n", envName, ok))
 		if !ok {
 			if required {
@@ -134,26 +130,4 @@ func (d *varsDataSource) Read(ctx context.Context, req datasource.ReadRequest, r
 	if resp.Diagnostics.HasError() {
 		return
 	}
-}
-
-// PrintEnv we'll need to use the environment shell to get the environment variable since Terraform forbids getting
-// variables other than TF_VAR_* with os.LookupEnv.
-func PrintEnv(name string) (string, bool) {
-	ok := true
-	var value []byte
-	var err error
-	var exitCode int
-	isWindows := runtime.GOOS == "windows"
-
-	if isWindows {
-		value, err, exitCode, _ = cli.RunCommand(".", "Powershell", []string{"echo", "$Env:" + name})
-	} else {
-		value, err, exitCode, _ = cli.RunCommand(".", "printenv", []string{name})
-	}
-
-	if exitCode != 0 || err != nil || isWindows && len(value) == 0 {
-		ok = false
-	}
-
-	return strings.TrimRight(string(value), "\r\n"), ok
 }

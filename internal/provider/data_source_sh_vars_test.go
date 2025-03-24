@@ -45,7 +45,7 @@ func TestParseEnv(t *testing.T) {
 
 	for _, c := range cases {
 		t.Run(c.name, func(t *testing.T) {
-			got, ok := PrintEnv(c.name)
+			got, ok := printEnv(c.name)
 
 			if ok != c.wantOk {
 				t.Errorf("PrintEnv() got ok = %v, wanted = %v", ok, c.wantOk)

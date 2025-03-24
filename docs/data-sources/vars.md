@@ -35,7 +35,10 @@ output "values" {
 
 - `names` (List of String) Names of the environment variables to extract.
 
-### Read-Only
+### Optional
 
 - `required` (Boolean) Requires all variables listed to be present and extracted successfully.
+
+### Read-Only
+
 - `values` (Map of String) Map of variables extracted from the environment.

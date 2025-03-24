@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"github.com/hashicorp/terraform-plugin-framework/schema/validator"
+	"runtime"
 	"strings"
 
 	"github.com/hashicorp/terraform-plugin-framework-validators/listvalidator"
@@ -135,12 +136,20 @@ func (d *varsDataSource) Read(ctx context.Context, req datasource.ReadRequest, r
 // variables other than TF_VAR_* with os.LookupEnv.
 func PrintEnv(name string) (string, bool) {
 	ok := true
+	var value []byte
+	var err error
+	var exitCode int
+	isWindows := runtime.GOOS == "windows"
 
-	value, err, exitCode, _ := cli.RunCommand(".", "printenv", []string{name})
+	if isWindows {
+		value, err, exitCode, _ = cli.RunCommand(".", "Powershell", []string{"echo", "$Env:" + name})
+	} else {
+		value, err, exitCode, _ = cli.RunCommand(".", "printenv", []string{name})
+	}
 
-	if exitCode != 0 || err != nil {
+	if exitCode != 0 || err != nil || isWindows && len(value) == 0 {
 		ok = false
 	}
 
-	return strings.TrimRight(string(value), "\n"), ok
+	return strings.TrimRight(string(value), "\r\n"), ok
 }

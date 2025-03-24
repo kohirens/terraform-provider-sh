@@ -65,8 +65,8 @@ func (d *varsDataSource) Schema(_ context.Context, _ datasource.SchemaRequest, r
 				},
 			},
 			"required": schema.BoolAttribute{
-				Computed:            true,
 				MarkdownDescription: "Requires all variables listed to be present and extracted successfully.",
+				Optional:            true,
 			},
 			"values": schema.MapAttribute{
 				ElementType:         types.StringType,

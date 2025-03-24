@@ -1,3 +1,6 @@
+// Copyright (c) HashiCorp, Inc.
+// SPDX-License-Identifier: MPL-2.0
+
 package provider
 
 import (
@@ -51,6 +54,7 @@ func (d *varsDataSource) Metadata(_ context.Context, req datasource.MetadataRequ
 // Schema defines the schema for the data source.
 func (d *varsDataSource) Schema(_ context.Context, _ datasource.SchemaRequest, resp *datasource.SchemaResponse) {
 	resp.Schema = schema.Schema{
+		MarkdownDescription: "The `sh_vars` data source takes a list of environment variable names and returns them as key-value pairs.",
 		Attributes: map[string]schema.Attribute{
 			"names": schema.ListAttribute{
 				ElementType:         types.StringType,

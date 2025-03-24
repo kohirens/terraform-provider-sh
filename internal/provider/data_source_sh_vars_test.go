@@ -1,3 +1,6 @@
+// Copyright (c) HashiCorp, Inc.
+// SPDX-License-Identifier: MPL-2.0
+
 package provider
 
 import (
@@ -19,12 +22,6 @@ func TestAccShDataSource(t *testing.T) {
 					// Verify the first coffee to ensure all attributes are set
 					resource.TestCheckResourceAttr(fixtureName, `values.HOME`, `/root`),
 					resource.TestCheckResourceAttr(fixtureName, `values.%`, "1"),
-					//resource.TestCheckResourceAttrWith(fixtureName, "values.HOME", func(value string) error {
-					//	if value != "HOME" {
-					//		return fmt.Errorf("expected HOME, got %s", value)
-					//	}
-					//	return nil
-					//}),
 				),
 			},
 		},

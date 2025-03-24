@@ -1,3 +1,6 @@
+// Copyright (c) HashiCorp, Inc.
+// SPDX-License-Identifier: MPL-2.0
+
 package provider
 
 import (
@@ -44,7 +47,7 @@ func (p *shProvider) Metadata(_ context.Context, _ provider.MetadataRequest, res
 // Schema defines the provider-level schema for configuration data.
 func (p *shProvider) Schema(_ context.Context, _ provider.SchemaRequest, resp *provider.SchemaResponse) {
 	resp.Schema = schema.Schema{}
-	resp.Schema.Description = "We use the immediate shell that the terraform command is running in, so no configuration is required."
+	resp.Schema.Description = "Extract values from the sh environment where Terraform runs; no configuration is needed."
 }
 
 // Configure prepares a sh API client for data sources and resources.

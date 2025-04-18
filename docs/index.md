@@ -3,12 +3,12 @@
 page_title: "sh Provider"
 subcategory: ""
 description: |-
-  Extract values from the sh environment where Terraform runs; no configuration is needed.
+  Extract values from the sh environment where Terraform runs; no input for the configuration is needed.
 ---
 
 # sh Provider
 
-Extract values from the sh environment where Terraform runs; no configuration is needed.
+Extract values from the sh environment where Terraform runs; no input for the configuration is needed.
 
 ## Example Usage
 

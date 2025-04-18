@@ -7,6 +7,7 @@ import (
 	"context"
 
 	"github.com/hashicorp/terraform-plugin-framework/datasource"
+	"github.com/hashicorp/terraform-plugin-framework/function"
 	"github.com/hashicorp/terraform-plugin-framework/provider"
 	"github.com/hashicorp/terraform-plugin-framework/provider/schema"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
@@ -47,7 +48,7 @@ func (p *shProvider) Metadata(_ context.Context, _ provider.MetadataRequest, res
 // Schema defines the provider-level schema for configuration data.
 func (p *shProvider) Schema(_ context.Context, _ provider.SchemaRequest, resp *provider.SchemaResponse) {
 	resp.Schema = schema.Schema{}
-	resp.Schema.Description = "Extract values from the sh environment where Terraform runs; no configuration is needed."
+	resp.Schema.Description = "Extract values from the sh environment where Terraform runs; no input for the configuration is needed."
 }
 
 // Configure prepares a sh API client for data sources and resources.
@@ -59,6 +60,13 @@ func (p *shProvider) Configure(ctx context.Context, req provider.ConfigureReques
 func (p *shProvider) DataSources(_ context.Context) []func() datasource.DataSource {
 	return []func() datasource.DataSource{
 		NewDataSourceExtractEnvVars,
+	}
+}
+
+// Functions defines the functions implemented in the provider.
+func (p *shProvider) Functions(_ context.Context) []func() function.Function {
+	return []func() function.Function{
+		NewgetenvFunction,
 	}
 }
 

@@ -11,17 +11,19 @@ import (
 )
 
 func TestAccShDataSource(t *testing.T) {
+	_ = os.Setenv("TEST_HOME", "/root")
+	defer os.Unsetenv("TEST_HOME")
 	fixtureName := "data.sh_vars.test"
 	resource.Test(t, resource.TestCase{
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			// Read testing
 			{
-				Config: providerConfig + `data "sh_vars" "test" {names=["HOME"]}`,
+				Config: providerConfig + `data "sh_vars" "test" {names=["TEST_HOME"]}`,
 				Check: resource.ComposeAggregateTestCheckFunc(
 					// Verify the first coffee to ensure all attributes are set
-					resource.TestCheckResourceAttr(fixtureName, `values.HOME`, `/root`),
-					resource.TestCheckResourceAttr(fixtureName, `values.%`, "1"),
+					resource.TestCheckResourceAttr(fixtureName, "values.TEST_HOME", "/root"),
+					resource.TestCheckResourceAttr(fixtureName, "values.%", "1"),
 				),
 			},
 		},
@@ -43,7 +45,7 @@ func TestParseEnv(t *testing.T) {
 
 	for _, c := range cases {
 		t.Run(c.name, func(t *testing.T) {
-			got, ok := PrintEnv(c.name)
+			got, ok := printEnv(c.name)
 
 			if ok != c.wantOk {
 				t.Errorf("PrintEnv() got ok = %v, wanted = %v", ok, c.wantOk)

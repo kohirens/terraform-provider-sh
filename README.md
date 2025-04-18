@@ -34,7 +34,7 @@ NOTE: You don't run terraform init when in development mode.
 terraform {
   required_providers {
     sh = {
-      source = "kohirens.com/edu/sh"
+      source = "kohirens/sh"
     }
   }
 }
